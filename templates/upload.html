@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Upload
+{% endblock %}
+{% block main %}
+    
+    <h2>Typing your reviews</h2>
+    <form  action="/result" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+        <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Required example textarea" name="text" required></textarea>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit" >Submit</button>
+        </div>
+    </form>
+
+{% endblock %}

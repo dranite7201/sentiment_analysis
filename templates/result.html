@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Result
+{% endblock %}
+{% block main %}
+    
+    <h2>Typing your reviews</h2>
+    <form  action="/result" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+        <textarea class="form-control is-invalid" id="validationTextarea" name="text" placeholder="Required example textarea" required></textarea>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+    {% if results %}
+            <h2>Analysis</h2>
+            <br>
+            <div id="results">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Sentence</th>
+                    <th>Predict</th>
+                </tr>
+                </thead>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result[0] }}</td>
+                    <td>{{ result[1] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+
+
+
+    {% endif %}
+{% endblock %}
