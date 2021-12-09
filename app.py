@@ -4,7 +4,7 @@ import nltk
 app = Flask(__name__)
 
 #get classifier model
-f = open('my_classifier.pickle', 'rb')
+f = open('my_classifier1.pickle', 'rb')
 classifier = pickle.load(f)
 f.close()
 
