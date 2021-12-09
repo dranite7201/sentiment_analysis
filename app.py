@@ -28,13 +28,12 @@ def classify():
 		sw = nltk.corpus.stopwords.words('english')
 		sentence = sentence.lower()
 		sentences = sentence.split('.')  
-		tmp = []
-		classResults =[]
 		results = []
 		for sent in sentences:
 			if sent != "":
 				pos=0
 				neg=0
+				tmp = []
 				words = [word for word in sent.split(" ") if word not in sw]
 				for word in words:
 					tmp.append(word)

@@ -14,12 +14,13 @@ sentence = "absolutely nothing. awesome movie. bad movie ever"
 sw = nltk.corpus.stopwords.words('english')
 sentence = sentence.lower()
 sentences = sentence.split('.')  
-tmp = []
+
 results = []
 for sent in sentences:
     if sent != "":
         pos=0
         neg=0
+        tmp = []
         words = [word for word in sent.split(" ") if word not in sw]
         for word in words:
             tmp.append(word)
