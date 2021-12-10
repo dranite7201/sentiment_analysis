@@ -1,6 +1,8 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
 import pickle
 import nltk
+import matplotlib as plt
+
 app = Flask(__name__)
 
 #get classifier model
@@ -23,8 +25,9 @@ def upload_form():
 def classify():
 	if request.method == "POST":
 		sentence = request.form['text']
-		neg = 0
-		pos = 0
+		p=0
+		n=0
+		neu=0
 		sw = nltk.corpus.stopwords.words('english')
 		sentence = sentence.lower()
 		sentences = sentence.split('.')  
@@ -34,7 +37,7 @@ def classify():
 				pos=0
 				neg=0
 				tmp = []
-				words = [word for word in sent.split(" ") if word not in sw]
+				words = [word for word in sent.split() if word not in sw]
 				for word in words:
 					tmp.append(word)
 					classResult = classifier.classify(word_feats(tmp))
@@ -45,14 +48,19 @@ def classify():
 				if (pos==neg):
 					l = [sent,"Neutral"]
 					results.append(l)
+					neu+=1
 				elif(pos>neg):
 					l = [sent,"Positive"]
 					results.append(l)
+					p+=1
 				else:
 					l = [sent,"Negative"]
-					results.append(l)				
-		
-		return render_template('result.html', results=results)
+					results.append(l)	
+					n+=1	
+		sumv = n+p+neu
+		datas = [p/sumv*100,n/sumv*100,neu/sumv*100]
+		labels= ['positive', 'negative', 'neutral']
+		return render_template('result.html', results=results, datas=datas, labels=labels)
 	return render_template('upload.html')
 
 if __name__ == "__main__":

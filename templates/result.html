@@ -15,26 +15,83 @@
         </div>
     </form>
     {% if results %}
-            <h2>Analysis</h2>
-            <br>
-            <div id="results">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Sentence</th>
-                    <th>Predictiton</th>
-                </tr>
-                </thead>
-                {% for result in results %}
-                <tr>
-                    <td>{{ result[0] }}</td>
-                    <td>{{ result[1] }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-            </div>
-
+        <h2>Analysis</h2>
+        <br>
+        <div id="results">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Sentence</th>
+                <th>Predictiton</th>
+            </tr>
+            </thead>
+            {% for result in results %}
+            <tr>
+                <td>{{ result[0] }}</td>
+                <td>{{ result[1] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
 
 
     {% endif %}
+    <div class="wrapper">
+        <div class="container d-flex flex-column justify-content-center align-items-center">
+          <div class="title text-center mb-5">
+            <h1>Which </h1>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="myChart" width="500px" height="500px"></canvas>
+          </div>
+        </div>
+      </div>
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+      <script>
+            let ctx = document.getElementById('myChart').getContext('2d');
+            let labels = {{ labels | tojson }};
+            let colorHex = ['#FB3640', '#EFCA08', '#43AA8B', '#253D5B'];
+
+            let myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                data: {{ datas | tojson}},
+                backgroundColor: colorHex
+                }],
+                labels: labels
+            },
+            options: {
+                responsive: true,
+                legend: {
+                position: 'bottom'
+                },
+                plugins: {
+                datalabels: {
+                    color: '#fff',
+                    anchor: 'end',
+                    align: 'start',
+                    offset: -10,
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                    borderRadius: 25,
+                    backgroundColor: (context) => {
+                    return context.dataset.backgroundColor;
+                    },
+                    font: {
+                    weight: 'bold',
+                    size: '10'
+                    },
+                    formatter: (value) => {
+                    return value + ' %';
+                    }
+                }
+                }
+            }
+            })
+
+      </script>
+    </body>
 {% endblock %}
